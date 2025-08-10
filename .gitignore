@@ -1,0 +1,45 @@
+# Build artifacts
+/target/
+/build/
+
+# Maven-specific
+.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.bak
+pom.xml.versions
+pom.xml.releaseBackup
+
+# Gradle-specific
+.gradle/
+build/
+
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# Log files
+*.log
+logs/
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Sensitive information (e.g., local configuration files)
+application-local.properties
+application-dev.properties
+*.env
