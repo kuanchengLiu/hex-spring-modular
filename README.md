@@ -144,37 +144,27 @@ External technologies are plugged in via **adapters** defined by **ports** (inte
 ### Mermaid Diagram (Ports & Adapters)
 
 ```mermaid
-flowchart LR
-  subgraph inbound[Inbound Adapters]
-    A1[REST Controller]:::in
-    A2[CLI / Scheduler]:::in
-    A3[Message Consumer]:::in
-  end
+graph TD
+    A[External Systems] -->|API Calls| B[Inbound Adapters]
+    B -->|Invokes| C[Application Layer]
+    C -->|Calls| D[Outbound Ports]
+    D -->|Uses| E[Outbound Adapters]
+    E -->|Accesses| F[External Resources (DB, APIs)]
 
-  subgraph core[Core Domain & Application]
-    P_in[Inbound Ports (Use Cases)]:::port
-    S[Application Service]:::core
-    D[Domain Model]:::core
-    P_out[Outbound Ports (Interfaces)]:::port
-  end
+    subgraph Hexagonal Architecture
+        B
+        C
+        D
+        E
+    end
 
-  subgraph outbound[Outbound Adapters]
-    B1[JPA Adapter]:::out
-    B2[HTTP Client Adapter]:::out
-    B3[Email/SMTP Adapter]:::out
-  end
+    style A fill:#ffcccc,stroke:#333,stroke-width:1px
+    style F fill:#ccffcc,stroke:#333,stroke-width:1px
+    style B fill:#fff2cc,stroke:#333,stroke-width:1px
+    style D fill:#fff2cc,stroke:#333,stroke-width:1px
+    style C fill:#cce5ff,stroke:#333,stroke-width:1px
+    style E fill:#cce5ff,stroke:#333,stroke-width:1px
 
-  A1 --> P_in --> S --> D
-  A2 --> P_in
-  A3 --> P_in
-  S --> P_out --> B1
-  S --> P_out --> B2
-  S --> P_out --> B3
-
-  classDef core fill:#f3f4f6,stroke:#111827,stroke-width:1px;
-  classDef port fill:#e0f2fe,stroke:#0369a1,stroke-width:1px,color:#0c4a6e;
-  classDef in fill:#ecfdf5,stroke:#065f46,color:#064e3b;
-  classDef out fill:#fff7ed,stroke:#9a3412,color:#7c2d12;
 ```
 
 ### Mapping to This Project
