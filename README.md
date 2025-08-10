@@ -144,26 +144,18 @@ External technologies are plugged in via **adapters** defined by **ports** (inte
 ### Mermaid Diagram (Ports & Adapters)
 
 ```mermaid
-graph TD
-    A[External Systems] -->|API Calls| B[Inbound Adapters]
-    B -->|Invokes| C[Application Layer]
-    C -->|Calls| D[Outbound Ports]
-    D -->|Uses| E[Outbound Adapters]
-    E -->|Accesses| F[External Resources (DB, APIs)]
+flowchart LR
+  A[External Systems]
+  B[Inbound Adapters]
+  C[Inbound Ports (Use Cases)]
+  D[Application Service]
+  E[Domain Model]
+  F[Outbound Ports]
+  G[Outbound Adapters]
+  H[External Resources: DB / APIs / Message Bus]
 
-    subgraph Hexagonal Architecture
-        B
-        C
-        D
-        E
-    end
-
-    style A fill:#ffcccc,stroke:#333,stroke-width:1px
-    style F fill:#ccffcc,stroke:#333,stroke-width:1px
-    style B fill:#fff2cc,stroke:#333,stroke-width:1px
-    style D fill:#fff2cc,stroke:#333,stroke-width:1px
-    style C fill:#cce5ff,stroke:#333,stroke-width:1px
-    style E fill:#cce5ff,stroke:#333,stroke-width:1px
+  A --> B --> C --> D --> E
+  D --> F --> G --> H
 
 ```
 
