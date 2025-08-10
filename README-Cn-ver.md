@@ -161,36 +161,22 @@ Password: (留空)
 
 ```mermaid
 flowchart LR
-  subgraph inbound[輸入轉接器 Inbound Adapters]
-    A1[REST Controller]:::in
-    A2[CLI / 排程]:::in
-    A3[訊息消費者]:::in
-  end
+    A[外部系統]
+    B[輸入轉接器]
+    C[輸入埠]
+    D[應用服務]
+    E[領域模型]
+    F[輸出埠]
+    G[輸出轉接器]
+    H[外部資源]
 
-  subgraph core[核心 Core]
-    P_in[輸入埠 (Use Cases)]:::port
-    S[應用服務 Application Service]:::core
-    D[領域模型 Domain Model]:::core
-    P_out[輸出埠 (Interfaces)]:::port
-  end
-
-  subgraph outbound[輸出轉接器 Outbound Adapters]
-    B1[JPA Adapter]:::out
-    B2[HTTP Client Adapter]:::out
-    B3[Email/SMTP Adapter]:::out
-  end
-
-  A1 --> P_in --> S --> D
-  A2 --> P_in
-  A3 --> P_in
-  S --> P_out --> B1
-  S --> P_out --> B2
-  S --> P_out --> B3
-
-  classDef core fill:#f3f4f6,stroke:#111827,stroke-width:1px;
-  classDef port fill:#e0f2fe,stroke:#0369a1,stroke-width:1px,color:#0c4a6e;
-  classDef in fill:#ecfdf5,stroke:#065f46,color:#064e3b;
-  classDef out fill:#fff7ed,stroke:#9a3412,color:#7c2d12;
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    F --> G
+    G --> H
 ```
 
 ### 專案對應
