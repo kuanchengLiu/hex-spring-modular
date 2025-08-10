@@ -145,18 +145,22 @@ External technologies are plugged in via **adapters** defined by **ports** (inte
 
 ```mermaid
 flowchart LR
-  A[External Systems]
-  B[Inbound Adapters]
-  C[Inbound Ports (Use Cases)]
-  D[Application Service]
-  E[Domain Model]
-  F[Outbound Ports]
-  G[Outbound Adapters]
-  H[External Resources: DB / APIs / Message Bus]
+    A[External Systems]
+    B[Inbound Adapters]
+    C[Inbound Ports]
+    D[Application Service]
+    E[Domain Model]
+    F[Outbound Ports]
+    G[Outbound Adapters]
+    H[External Resources]
 
-  A --> B --> C --> D --> E
-  D --> F --> G --> H
-
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    F --> G
+    G --> H
 ```
 
 ### Mapping to This Project
