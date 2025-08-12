@@ -204,3 +204,100 @@ flowchart LR
 - 在 domain 夾雜框架註解。  
 - Controller 直接依賴 JPA Entity 而非 domain 類型。  
 - 跳過 Port，從 Controller 直呼 Adapter。
+
+### 關係圖
+1. Domain
+定位：整個系統的「核心」，不依賴任何框架、資料庫、UI。
+
+內容：
+
+Entity（領域實體，例如 Order）
+
+Value Object（值物件，例如 Money）
+
+Domain Service（純業務邏輯服務）
+
+Port（介面）— 定義系統需要跟外部互動的能力（例如 OrderRepository）
+
+不能做的事：
+
+不能直接 import Spring、JPA、HTTP 相關的套件
+
+不跟資料庫、API 直接打交道
+
+依賴方向：❌ 不依賴其他 module（最核心）
+
+2. Application
+定位：負責 用例（Use Case） 與 流程控制。
+
+內容：
+
+Application Service（應用服務，例如 OrderService）
+
+實作 domain 定義的 inbound port（例如 CreateOrderUseCase）
+
+特點：
+
+不處理資料儲存細節
+
+不管 HTTP、UI 格式，只管「執行用例」並回傳 domain 資料
+
+依賴方向：
+
+依賴 domain（呼叫 domain 物件與介面）
+
+不依賴 infrastructure-jpa 或 web
+
+3. Infrastructure-JPA
+定位：負責實作 domain 定義的 Outbound Port，也就是外部基礎設施（資料庫、API、訊息佇列等）的存取。
+
+內容：
+
+JPA Entity（資料庫對應實體）
+
+Spring Data JPA Repository
+
+Adapter（例如 OrderRepositoryAdapter）實作 OrderRepository 介面
+
+特點：
+
+這裡才會 import Spring Data JPA、Hibernate
+
+把 DB 查詢結果轉成 Domain Object
+
+依賴方向：
+
+依賴 domain（因為要實作 domain 定義的 repository 介面）
+
+不依賴 application 或 web
+
+4. Web
+定位：負責 輸入/輸出轉換，提供 API 給外界呼叫。
+
+內容：
+
+Controller（HTTP 入口點）
+
+DTO（輸入輸出資料格式）
+
+Request / Response mapping
+
+特點：
+
+Controller 接收 HTTP Request → 呼叫 application 的用例 → 把結果轉成 JSON Response
+
+依賴方向：
+
+依賴 application（呼叫服務）
+
+不直接依賴 infrastructure-jpa（要透過 application 執行）
+
+不能直接操作 DB Entity
+
+```mermaid
+flowchart TD
+    Web[Web Layer] --> App[Application Layer]
+    App --> Domain[Domain Layer]
+    App --> Infra[Infrastructure-JPA Layer]
+    Infra --> Domain
+```
